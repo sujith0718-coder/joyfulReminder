@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CA Exams Finished! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff7e8;--card:#ffffff;--ink:#2b2140;--mute:#6d6485;--a:#ff5d8f;--b:#7c4dff;--c:#ffb703;--d:#06d6a0;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1530;--card:#2a2147;--ink:#fff3e0;--mute:#b9aedb}}
+:root[data-theme="dark"]{--bg:#1b1530;--card:#2a2147;--ink:#fff3e0;--mute:#b9aedb}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2',system-ui,sans-serif;line-height:1.4;overflow-x:hidden}
+canvas{position:fixed;inset:0;pointer-events:none;z-index:50}
+.hero{text-align:center;padding:48px 18px 28px;background:linear-gradient(135deg,var(--a),var(--b));color:#fff;border-radius:0 0 40px 40px}
+.hero h1{font-size:clamp(2.2rem,8vw,4.2rem);margin:0;font-weight:800;line-height:1.05}
+.hero p{font-size:1.2rem;margin:10px 0 20px}
+.emoji{font-size:3rem;display:inline-block;animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(8deg)}}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;padding:12px 24px;background:var(--c);color:#2b2140;cursor:pointer;box-shadow:0 5px 0 rgba(0,0,0,.18);transition:transform .1s}
+button:active{transform:translateY(4px);box-shadow:0 1px 0 rgba(0,0,0,.18)}
+main{max-width:860px;margin:0 auto;padding:20px 16px 60px}
+section{background:var(--card);border-radius:24px;padding:20px;margin:22px 0;box-shadow:0 8px 24px rgba(124,77,255,.12)}
+h2{margin:0 0 12px;font-size:1.6rem}
+.meme{font-size:1.25rem;min-height:92px;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;border-radius:18px;background:linear-gradient(135deg,rgba(255,93,143,.15),rgba(124,77,255,.15))}
+.row{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:14px}
+ul{list-style:none;padding:0;margin:0}
+li label{display:flex;gap:12px;align-items:center;padding:9px 6px;font-size:1.1rem;cursor:pointer}
+li input{width:22px;height:22px;accent-color:var(--d)}
+li input:checked+span{text-decoration:line-through;color:var(--mute)}
+.bar{height:14px;background:rgba(124,77,255,.18);border-radius:99px;overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--d),var(--c));transition:width .4s}
+.big{font-size:1.4rem;text-align:center;min-height:60px}
+#pop{position:relative;height:260px;border-radius:18px;background:linear-gradient(#bde0fe,#ffd6ff);overflow:hidden;touch-action:manipulation}
+#pop span{position:absolute;font-size:2.4rem;cursor:pointer;user-select:none;animation:rise linear forwards}
+@keyframes rise{from{transform:translateY(0)}to{transform:translateY(-320px)}}
+input[type=text]{font:inherit;padding:11px 16px;border-radius:999px;border:2px solid var(--b);background:var(--bg);color:var(--ink);flex:1;min-width:150px}
+.wall{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.wall b{background:var(--b);color:#fff;padding:6px 14px;border-radius:99px;font-weight:600;animation:bob 2s 1}
+footer{text-align:center;padding:10px 16px 40px;color:var(--mute);font-size:1.1rem}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<header class="hero">
+  <div class="emoji">🎓</div>
+  <h1>CA Exams Finished!</h1>
+  <p>No more books. No more tension. Today is only for smiling 😄</p>
+  <button onclick="boom()">🎉 Tap for Party!</button>
+</header>
+<main>
+  <section>
+    <h2>😂 Every CA Student Knows This</h2>
+    <div class="meme" id="meme">Tap the button to laugh!</div>
+    <div class="row"><button onclick="nextMeme()">Next Joke 😆</button></div>
+  </section>
+
+  <section>
+    <h2>✅ Freedom Checklist</h2>
+    <ul id="list"></ul>
+    <div class="bar"><i id="fill"></i></div>
+    <p id="pmsg" style="text-align:center;margin:8px 0 0;color:var(--mute)">0 of 8 done</p>
+  </section>
+
+  <section>
+    <h2>🎈 Pop the Stress Balloons</h2>
+    <div id="pop"></div>
+    <p class="big">Popped: <b id="score">0</b></p>
+    <div class="row"><button onclick="startPop()">Start Popping 🎈</button></div>
+  </section>
+
+  <section>
+    <h2>🎲 What Should I Do Today?</h2>
+    <div class="big" id="idea">Let fate decide your celebration!</div>
+    <div class="row"><button onclick="idea()">Surprise Me ✨</button></div>
+  </section>
+
+  <section>
+    <h2>💌 Friends' Wish Wall</h2>
+    <div class="row" style="margin-top:0">
+      <input type="text" id="nm" placeholder="Type your name..." maxlength="20">
+      <button onclick="wish()">Add ❤️</button>
+    </div>
+    <div class="wall" id="wall"></div>
+  </section>
+</main>
+<footer>Whatever the result — you worked so hard. Be proud! 💛<br>Now go and enjoy with your friends! 🥳</footer>
+
+<script>
+const memes=[
+"Me: I will study 10 hours today 💪<br>Also me: arranges highlighters for 2 hours 🖍️",
+"Friend: \"How was the paper?\"<br>Me: \"Result will tell, bro.\" 🙃",
+"Leaving the exam hall: suddenly remembers the perfect answer 🤦",
+"Calculator battery at 1%: fear level 100 🔋😱",
+"\"Sir, one more additional sheet please!\" 📄📄📄",
+"A pen that writes smoothly is more valuable than gold 🖊️✨",
+"4 hours of sleep = luxury sleep, CA students say 😴",
+"Standards, sections, case laws... where were you in the hall? 📚",
+"Mom: \"Just one more revision?\"<br>Me: \"Mom, exam is over!\" 😭🎉",
+"Group study: 5 mins study, 55 mins gossip and chai ☕😂",
+"Relatives: \"So when is the result?\" Me: \"Please, let me live today!\" 🙏",
+"Last 10 minutes: handwriting becomes a secret code 📝🕵️"
+];
+let mi=-1;
+function nextMeme(){let n;do{n=Math.floor(Math.random()*memes.length)}while(n===mi);mi=n;document.getElementById('meme').innerHTML=memes[n];small()}
+const todo=["Sleep without any alarm 😴","Eat favourite food 🍕","Watch a movie with friends 🎬","Phone-call someone you missed 📞","Go for a long walk or ride 🛵","Play games, no guilt 🎮","Take lots of selfies 🤳","Say thanks to teachers and family 🙏"];
+const ul=document.getElementById('list');
+todo.forEach((t,i)=>{const li=document.createElement('li');li.innerHTML='<label><input type="checkbox"><span>'+t+'</span></label>';li.querySelector('input').onchange=upd;ul.appendChild(li)});
+function upd(){const c=ul.querySelectorAll('input:checked').length;document.getElementById('fill').style.width=c/todo.length*100+'%';document.getElementById('pmsg').textContent=c===todo.length?'All done! You are a legend! 🏆':c+' of '+todo.length+' done';if(c===todo.length)boom()}
+const ideas=["Treat yourself to biryani 🍗","Movie night with the gang 🍿","Sleep till afternoon 😴","Cricket or carrom match 🏏","Ice cream party 🍦","Long drive with friends 🚗","Dance like nobody is watching 💃","Call your best friend and laugh 📱","Photo walk in your city 📸","Cook something yummy 🍳"];
+function idea(){document.getElementById('idea').textContent=ideas[Math.floor(Math.random()*ideas.length)];small()}
+let score=0,timer=null;
+function startPop(){score=0;document.getElementById('score').textContent=0;clearInterval(timer);const box=document.getElementById('pop');box.innerHTML='';timer=setInterval(()=>{const s=document.createElement('span');s.textContent=['🎈','🎈','🎈','😤','📚'][Math.floor(Math.random()*5)];s.style.left=Math.random()*85+'%';s.style.top='240px';s.style.animationDuration=(3+Math.random()*3)+'s';const pop=()=>{score++;document.getElementById('score').textContent=score;s.remove();small()};s.onclick=pop;s.ontouchstart=e=>{e.preventDefault();pop()};s.onanimationend=()=>s.remove();box.appendChild(s)},450)}
+function wish(){const i=document.getElementById('nm');const v=i.value.trim();if(!v)return;const b=document.createElement('b');b.textContent=v+' 🎉';document.getElementById('wall').prepend(b);i.value='';boom()}
+const cv=document.getElementById('cv'),cx=cv.getContext('2d');let P=[],run=false;
+function rs(){cv.width=innerWidth;cv.height=innerHeight}rs();addEventListener('resize',rs);
+const cols=['#ff5d8f','#7c4dff','#ffb703','#06d6a0','#4cc9f0'];
+function add(n,x,y){for(let i=0;i<n;i++)P.push({x,y,vx:(Math.random()-.5)*14,vy:Math.random()*-14-2,s:Math.random()*8+4,c:cols[Math.floor(Math.random()*5)],r:Math.random()*6,l:130})}
+function boom(){add(140,innerWidth/2,innerHeight*0.35);go()}
+function small(){add(25,innerWidth/2,innerHeight/2);go()}
+function go(){if(run)return;run=true;(function f(){cx.clearRect(0,0,cv.width,cv.height);P=P.filter(p=>p.l>0);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.35;p.r+=.2;p.l--;cx.save();cx.globalAlpha=Math.min(1,p.l/40);cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/4,p.s,p.s/2);cx.restore()});if(P.length)requestAnimationFrame(f);else run=false})()}
+setTimeout(boom,500);
+</script>
+</body>
+</html>
